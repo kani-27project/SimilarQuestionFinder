@@ -1,60 +1,160 @@
 # Similar Question Finder
 
+## Option Chosen
+
+Option B: Similar Question Finder with Auto-Tagging
+
+---
+
 ## Overview
 
-Similar Question Finder is an AI-powered web application that helps users find semantically similar questions using Sentence Transformers.
+Similar Question Finder is an AI-powered web application that allows students to ask study questions and find semantically similar previous questions. The system automatically detects the topic of the question and stores the search history.
+
+---
 
 ## Features
 
-* React Frontend
-* Flask Backend
-* SQLite Database
-* Topic Detection
-* AI Similarity Search
-* Duplicate Question Prevention
+- User Signup and Login
+- Automatic Topic Detection
+- Similar Question Search
+- Question History
+- Topic Filtering
+- SQLite Database Storage
+- Semantic Similarity Matching
+- React Frontend
+- Flask Backend
 
-## Technologies Used
+---
 
-* React
-* Flask
-* SQLite
-* Sentence Transformers
-* Scikit-learn
+## Tech Stack
 
-## How to Run
+### Frontend
+- React
+- Bootstrap
+- Vite
+
+### Backend
+- Flask
+- Flask SQLAlchemy
+- Flask CORS
+
+### Database
+- SQLite
+
+### AI / ML
+- Sentence Transformers
+- Cosine Similarity
+- Scikit-learn
+
+---
+
+## How It Works
+
+### Topic Detection
+
+The backend automatically assigns a topic to a question using keyword-based classification.
+
+Examples:
+
+- Photosynthesis → Biology
+- Force → Physics
+- Algebra → Math
+
+### Similarity Search
+
+1. User enters a question.
+2. Sentence Transformer converts the question into an embedding vector.
+3. Existing questions are converted into vectors.
+4. Cosine Similarity is calculated.
+5. Most similar questions are returned.
+
+---
+
+## Project Structure
+
+```
+SimilarQuestionFinder
+│
+├── backend
+│   ├── app.py
+│   └── database.db
+│
+├── frontend
+│   ├── src
+│   ├── public
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+## Run Locally
 
 ### Backend
 
+```bash
 cd backend
-
-venv\Scripts\activate
-
+pip install -r requirements.txt
 python app.py
+```
 
 ### Frontend
 
+```bash
 cd frontend
-
 npm install
-
 npm run dev
+```
 
-## Project Flow
+---
 
-User enters a question
+## API Endpoints
 
-↓
+### Signup
 
-Question is saved in SQLite database
+POST
 
-↓
+```
+/signup
+```
 
-Sentence Transformer generates embeddings
+### Login
 
-↓
+POST
 
-Cosine Similarity is calculated
+```
+/login
+```
 
-↓
+### Add Question
 
-Similar questions are displayed with similarity percentage and topic
+POST
+
+```
+/add-question
+```
+
+### Similar Questions
+
+POST
+
+```
+/similar
+```
+
+### History
+
+GET
+
+```
+/history/<user_id>
+```
+
+---
+
+## Author
+
+Kani
+
+BE Electronics and Communication Engineering
