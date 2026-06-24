@@ -1,0 +1,7 @@
+flask
+flask-cors
+flask-sqlalchemy
+sentence-transformers
+scikit-learn
+torch
+numpy
