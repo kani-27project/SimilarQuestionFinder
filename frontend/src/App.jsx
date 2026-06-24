@@ -5,7 +5,10 @@ function App() {
   const [result, setResult] = useState([]);
   const [history, setHistory] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("All");
-
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [userId, setUserId] = useState(null);
+const [showPassword, setShowPassword] = useState(false);
   const findSimilar = async () => {
     try {
       await fetch("http://127.0.0.1:5000/add-question", {
@@ -37,12 +40,62 @@ function App() {
       console.log(error);
     }
   };
+const signup = async () => {
+  try {
+    const response = await fetch(
+      "http://127.0.0.1:5000/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
 
+    const data = await response.json();
+    alert(data.message);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const login = async () => {
+  try {
+    const response = await fetch(
+      "http://127.0.0.1:5000/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setUserId(data.user_id);
+      alert("Login Successful");
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
   const loadHistory = async () => {
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5000/history/1"
-      );
+    const response = await fetch(
+      `http://127.0.0.1:5000/history/${userId}`
+    );
 
       const data = await response.json();
       setHistory(data);
@@ -50,7 +103,6 @@ function App() {
       console.log(error);
     }
   };
-
   return (
     <div className="container py-5">
       <div className="bg-white p-5 rounded shadow-lg">
@@ -63,6 +115,60 @@ function App() {
           <p className="text-muted">
             AI Powered Semantic Question Search
           </p>
+          <div className="card p-4 mb-4 shadow-sm">
+
+  <h3 className="text-center mb-3">
+    User Authentication
+  </h3>
+
+  <input
+    type="email"
+    className="form-control mb-3"
+    placeholder="Enter Email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+  />
+
+  <input
+  type={showPassword ? "text" : "password"}
+  className="form-control mb-3"
+  placeholder="Enter Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+
+<button
+  className="btn btn-sm btn-secondary mb-3"
+  onClick={() => setShowPassword(!showPassword)}
+>
+  {showPassword ? "Hide Password" : "Show Password"}
+</button>
+
+  <div className="d-flex gap-2 justify-content-center">
+
+    <button
+      className="btn btn-success"
+      onClick={signup}
+    >
+      Signup
+    </button>
+
+    <button
+      className="btn btn-primary"
+      onClick={login}
+    >
+      Login
+    </button>
+
+  </div>
+
+  {userId && (
+    <p className="text-success text-center mt-3">
+      Logged In User ID: {userId}
+    </p>
+  )}
+
+</div>
         </div>
 
         <div className="row justify-content-center mb-4">
@@ -89,13 +195,14 @@ function App() {
         </div>
 
         <div className="text-center mb-4">
-          <button
-            className="btn btn-secondary"
-            onClick={loadHistory}
-          >
-            📜 View History
-          </button>
-        </div>
+  <button
+    className="btn btn-secondary"
+    onClick={loadHistory}
+    disabled={!userId}
+  >
+    📜 View History
+  </button>
+</div>
 
         <h2 className="text-center mb-4 text-primary fw-bold">
           Search Results
