@@ -237,7 +237,23 @@ def questions():
 
     return result
 
+@app.route("/history/<int:user_id>")
+def history(user_id):
 
+    questions = Question.query.filter_by(
+        user_id=user_id
+    ).all()
+
+    result = []
+
+    for q in questions:
+        result.append({
+            "id": q.id,
+            "question": q.question,
+            "topic": q.topic
+        })
+
+    return result
 # ---------------- DATABASE ----------------
 
 with app.app_context():
