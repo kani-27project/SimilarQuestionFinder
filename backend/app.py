@@ -139,21 +139,27 @@ def find_similar_questions(new_question):
     )[0]
 
     result = []
+    seen = set()
 
     for i, score in enumerate(similarities):
 
+        if old_questions[i] in seen:
+            continue
+
+        seen.add(old_questions[i])
+
         result.append({
-    "question": old_questions[i],
-    "topic": all_questions[i].topic,
-    "similarity": round(float(score) * 100, 2)
-})
+            "question": old_questions[i],
+            "topic": all_questions[i].topic,
+            "similarity": round(float(score) * 100, 2)
+        })
+
     result.sort(
         key=lambda x: x["similarity"],
         reverse=True
     )
 
-    return result
-
+    return result[:5]
 @app.route("/add-question", methods=["POST"])
 def add_question():
 

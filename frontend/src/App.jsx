@@ -94,8 +94,8 @@ const login = async () => {
   const loadHistory = async () => {
     try {
     const response = await fetch(
-      `http://127.0.0.1:5000/history/${userId}`
-    );
+  "http://127.0.0.1:5000/history/1"
+);
 
       const data = await response.json();
       setHistory(data);
@@ -115,6 +115,7 @@ const login = async () => {
           <p className="text-muted">
             AI Powered Semantic Question Search
           </p>
+          
           <div className="card p-4 mb-4 shadow-sm">
 
   <h3 className="text-center mb-3">
@@ -169,6 +170,7 @@ const login = async () => {
   )}
 
 </div>
+
         </div>
 
         <div className="row justify-content-center mb-4">
@@ -195,6 +197,7 @@ const login = async () => {
         </div>
 
         <div className="text-center mb-4">
+          
   <button
     className="btn btn-secondary"
     onClick={loadHistory}
