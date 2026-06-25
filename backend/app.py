@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from sentence_transformers import SentenceTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 CORS(app)
@@ -11,9 +11,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-model = SentenceTransformer(
-    "sentence-transformers/all-MiniLM-L6-v2"
-)
+
 # ---------------- USER TABLE ----------------
 
 class User(db.Model):
@@ -122,6 +120,9 @@ def get_topic(question):
 
     return "General"
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 def find_similar_questions(new_question):
 
     all_questions = Question.query.all()
@@ -129,29 +130,25 @@ def find_similar_questions(new_question):
     if len(all_questions) == 0:
         return []
 
-    new_embedding = model.encode([new_question])
+    questions = [q.question for q in all_questions]
 
-    old_questions = [q.question for q in all_questions]
+    vectorizer = TfidfVectorizer()
 
-    old_embeddings = model.encode(old_questions)
+    vectors = vectorizer.fit_transform(
+        questions + [new_question]
+    )
 
     similarities = cosine_similarity(
-        new_embedding,
-        old_embeddings
+        vectors[-1],
+        vectors[:-1]
     )[0]
 
     result = []
-    seen = set()
 
     for i, score in enumerate(similarities):
 
-        if old_questions[i] in seen:
-            continue
-
-        seen.add(old_questions[i])
-
         result.append({
-            "question": old_questions[i],
+            "question": questions[i],
             "topic": all_questions[i].topic,
             "similarity": round(float(score) * 100, 2)
         })
@@ -162,6 +159,7 @@ def find_similar_questions(new_question):
     )
 
     return result[:5]
+
 @app.route("/add-question", methods=["POST"])
 def add_question():
 
