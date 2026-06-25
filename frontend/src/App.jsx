@@ -11,7 +11,7 @@ const [userId, setUserId] = useState(null);
 const [showPassword, setShowPassword] = useState(false);
   const findSimilar = async () => {
     try {
-      await fetch("http://127.0.0.1:5000/add-question", {
+      await fetch("https://similarquestionfinder-production.up.railway.app/add-question", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const [showPassword, setShowPassword] = useState(false);
       });
 
       const response = await fetch(
-        "http://127.0.0.1:5000/similar",
+        "https://similarquestionfinder-production.up.railway.app/similar",
         {
           method: "POST",
           headers: {
@@ -43,7 +43,7 @@ const [showPassword, setShowPassword] = useState(false);
 const signup = async () => {
   try {
     const response = await fetch(
-      "http://127.0.0.1:5000/signup",
+      "https://similarquestionfinder-production.up.railway.app/signup",
       {
         method: "POST",
         headers: {
@@ -66,7 +66,7 @@ const signup = async () => {
 const login = async () => {
   try {
     const response = await fetch(
-      "http://127.0.0.1:5000/login",
+      "https://similarquestionfinder-production.up.railway.app/login",
       {
         method: "POST",
         headers: {
@@ -94,7 +94,7 @@ const login = async () => {
   const loadHistory = async () => {
     try {
     const response = await fetch(
-  "http://127.0.0.1:5000/history/1"
+  "https://similarquestionfinder-production.up.railway.app/history/1"
 );
 
       const data = await response.json();

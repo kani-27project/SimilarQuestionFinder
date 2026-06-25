@@ -4,3 +4,4 @@ flask-cors
 sentence-transformers
 scikit-learn
 torch
+gunicorn
