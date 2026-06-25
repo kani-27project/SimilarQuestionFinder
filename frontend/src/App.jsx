@@ -11,7 +11,7 @@ const [userId, setUserId] = useState(null);
 const [showPassword, setShowPassword] = useState(false);
   const findSimilar = async () => {
     try {
-      await fetch("https://similarquestionfinder-production.up.railway.app/add-question", {
+      await fetch("https://similarquestionfinder-1.onrender.com/add-question", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const [showPassword, setShowPassword] = useState(false);
       });
 
       const response = await fetch(
-        "https://similarquestionfinder-production.up.railway.app/similar",
+        "https://similarquestionfinder-1.onrender.com/similar",
         {
           method: "POST",
           headers: {
@@ -43,7 +43,7 @@ const [showPassword, setShowPassword] = useState(false);
 const signup = async () => {
   try {
     const response = await fetch(
-      "https://similarquestionfinder-production.up.railway.app/signup",
+      "https://similarquestionfinder-1.onrender.com/signup",
       {
         method: "POST",
         headers: {
@@ -66,7 +66,7 @@ const signup = async () => {
 const login = async () => {
   try {
     const response = await fetch(
-      "https://similarquestionfinder-production.up.railway.app/login",
+      "https://similarquestionfinder-1.onrender.com/login",
       {
         method: "POST",
         headers: {
@@ -94,7 +94,7 @@ const login = async () => {
   const loadHistory = async () => {
     try {
     const response = await fetch(
-  "https://similarquestionfinder-production.up.railway.app/history/1"
+  "https://similarquestionfinder-1.onrender.com/history/1"
 );
 
       const data = await response.json();

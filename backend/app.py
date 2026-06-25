@@ -4,7 +4,12 @@ from flask_cors import CORS
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
-CORS(app)
+from flask_cors import CORS
+
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}}
+)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
