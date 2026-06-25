@@ -11,7 +11,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer(
+    "sentence-transformers/all-MiniLM-L6-v2"
+)
 # ---------------- USER TABLE ----------------
 
 class User(db.Model):
