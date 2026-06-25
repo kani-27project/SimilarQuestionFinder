@@ -5,7 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 from flask_cors import CORS
-
+from werkzeug.security import generate_password_hash, check_password_hash
 CORS(
     app,
     resources={r"/*": {"origins": "*"}}
@@ -49,7 +49,7 @@ def signup():
     data = request.get_json()
 
     email = data["email"]
-    password = data["password"]
+    password = generate_password_hash(data["password"])
 
     existing_user = User.query.filter_by(email=email).first()
 
@@ -77,19 +77,18 @@ def login():
     email = data["email"]
     password = data["password"]
 
-    user = User.query.filter_by(
-        email=email,
-        password=password
-    ).first()
+    user = User.query.filter_by(email=email).first()
 
-    if not user:
-        return {"message": "Invalid Credentials"}, 401
+    if user and check_password_hash(user.password, password):
+        return {
+            "message": "Login Successful",
+            "user_id": user.id,
+            "email": user.email
+        }
 
     return {
-        "message": "Login Successful",
-        "user_id": user.id,
-        "email": user.email
-    }
+        "message": "Invalid Credentials"
+    }, 401
 
 
 # ---------------- TEST USER ----------------
